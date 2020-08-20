@@ -7,6 +7,20 @@ Expand the name of the chart.
 {{- end }}
 
 {{/*
+Set version of the chart to be overriden if needed.
+*/}}
+{{- define "quarkus-generic.version" -}}
+{{- default .Chart.Version .Values.chartVersionOverride | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+Set version of the app to be overriden if needed.
+*/}}
+{{- define "quarkus-generic.appVersion" -}}
+{{- default .Chart.AppVersion .Values.versionOverride | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
@@ -38,10 +52,10 @@ Common labels
 helm.sh/subchart: {{ .Chart.Name | quote }}
 helm.sh/subchart-version: {{ .Chart.Version | quote }}
 helm.sh/chart: {{ include "quarkus-generic.name" . }}
-helm.sh/chart-version: {{ include "quarkus-generic.name" . }}
+helm.sh/chart-version: {{ include "quarkus-generic.version" . }}
 {{ include "quarkus-generic.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+app.kubernetes.io/version:  {{ include "quarkus-generic.appVersion" . }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
