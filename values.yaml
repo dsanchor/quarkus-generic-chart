@@ -20,6 +20,10 @@ service:
   type: ClusterIP
   port: 80
 
+env: {}
+#- name: DEMO_GREETING
+#  value: "Hello from the environment"
+
 livenessProbe: {}
 #  httpGet:
 #    path: /
